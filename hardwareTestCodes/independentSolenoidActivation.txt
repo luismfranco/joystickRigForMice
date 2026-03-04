@@ -1,0 +1,36 @@
+
+/*
+ * Code for controlling solenoid valve independently from MATLAB
+ */
+
+// pins:
+int LED = 13;
+int pulseToValve = 7;
+
+// variables:
+int a1 = 0;
+int a2 = 0;
+
+void setup() {
+  // LED indicator:
+  pinMode (LED, OUTPUT);
+  // pulse from master arduino:
+  pinMode(pulseToValve, INPUT);
+  // previous valve state:
+  a1 = digitalRead(pulseToValve);
+}
+
+void loop() {
+  // read input pin:
+  a2 = digitalRead(pulseToValve);
+  // turn on solenoid valve only once (single shot):
+  if (a1 != a2){
+      //if value received is 1 turn LED on for 200 ms
+      if (a2 == 1) {
+        digitalWrite(LED, HIGH);
+        delay(200);
+        digitalWrite(LED, LOW);
+      }
+  a1 = a2;
+  }
+}
